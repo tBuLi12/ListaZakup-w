@@ -131,4 +131,32 @@ namespace ProductUnitTest
 			Assert::AreEqual(0.06, f.get_salt(), 0.001);
 		}
 	};
+
+
+	TEST_CLASS(ItemUnitTest)
+	{
+		TEST_METHOD(Constructor)
+		{
+			Item i("parasol", 1599, 1);
+			Assert::IsTrue("parasol" == i.get_name());
+		}
+
+		TEST_METHOD(get_name)
+		{
+			Item i("parasol", 1599, 1);
+			Assert::IsTrue("parasol" == i.get_name());
+		}
+
+		TEST_METHOD(get_price)
+		{
+			Item i("parasol", 1599, 1);
+			Assert::AreEqual(1599, i.get_price());
+		}
+
+		TEST_METHOD(get_quantity)
+		{
+			Item i("parasol", 1599, 1);
+			Assert::AreEqual(1, i.get_quantity());
+		}
+	};
 }
