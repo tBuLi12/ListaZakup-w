@@ -60,32 +60,32 @@ double Food::get_salt_per_100g() const noexcept
 
 double Food::get_kcal() const noexcept
 {
-	return get_kcal_per_100g() * get_weight();
+	return get_kcal_per_100g() * get_weight() / 100.0;
 }
 
 double Food::get_fat() const noexcept
 {
-	return get_fat_per_100g() * get_weight();
+	return get_fat_per_100g() * get_weight() / 100.0;
 }
 
 double Food::get_carbohydrates() const noexcept
 {
-	return get_carbohydrates_per_100g() * get_weight();
+	return get_carbohydrates_per_100g() * get_weight() / 100.0;
 }
 
 double Food::get_fibre() const noexcept
 {
-	return get_fibre_per_100g() * get_weight();
+	return get_fibre_per_100g() * get_weight() / 100.0;
 }
 
 double Food::get_protein() const noexcept
 {
-	return get_protein_per_100g() * get_weight();
+	return get_protein_per_100g() * get_weight() / 100.0;
 }
 
 double Food::get_salt() const noexcept
 {
-	return get_salt_per_100g() * get_weight();
+	return get_salt_per_100g() * get_weight() / 100.0;
 }
 
 
