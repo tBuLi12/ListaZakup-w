@@ -95,5 +95,40 @@ namespace ProductUnitTest
 			Food f("potato", 50, 1000, nutrition);
 			Assert::AreEqual(760.0, f.get_kcal(), 0.001);
 		}
+
+		TEST_METHOD(get_fat)
+		{
+			vector<double> nutrition{ 76.0, 0.1, 17.0, 2.2, 2.0, 0.006 };
+			Food f("potato", 50, 1000, nutrition);
+			Assert::AreEqual(1.0, f.get_fat(), 0.001);
+		}
+
+		TEST_METHOD(get_carbohydrates)
+		{
+			vector<double> nutrition{ 76.0, 0.1, 17.0, 2.2, 2.0, 0.006 };
+			Food f("potato", 50, 1000, nutrition);
+			Assert::AreEqual(170.0, f.get_carbohydrates(), 0.001);
+		}
+
+		TEST_METHOD(get_fibre)
+		{
+			vector<double> nutrition{ 76.0, 0.1, 17.0, 2.2, 2.0, 0.006 };
+			Food f("potato", 50, 1000, nutrition);
+			Assert::AreEqual(22.0, f.get_fibre(), 0.001);
+		}
+
+		TEST_METHOD(get_protein)
+		{
+			vector<double> nutrition{ 76.0, 0.1, 17.0, 2.2, 2.0, 0.006 };
+			Food f("potato", 50, 1000, nutrition);
+			Assert::AreEqual(20.0, f.get_protein(), 0.001);
+		}
+
+		TEST_METHOD(get_salt)
+		{
+			vector<double> nutrition{ 76.0, 0.1, 17.0, 2.2, 2.0, 0.006 };
+			Food f("potato", 50, 1000, nutrition);
+			Assert::AreEqual(0.06, f.get_salt(), 0.001);
+		}
 	};
 }
