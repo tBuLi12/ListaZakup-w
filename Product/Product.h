@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -8,79 +9,43 @@ class Product
 {
 protected:
 	string name;
-	int price_gr, approximate_weight_grams;
+	int price_gr;
 public:
 	string get_name() const noexcept;
 	int get_price() const noexcept;
-	virtual int get_weight() const noexcept = 0;
 };
 
 
-class Meat :public Product
-{
-public:
-	Meat(string name, int weight_grams, int price_gr) noexcept;
-	virtual int get_weight() const noexcept;
-};
-
-
-class Vegetable :public Product
-{
-public:
-	Vegetable(string name, int weight_grams, int price_gr) noexcept;
-	virtual int get_weight() const noexcept;
-};
-
-
-class Fruit :public Product
-{
-public:
-	Fruit(string name, int weight_grams, int price_gr) noexcept;
-	virtual int get_weight() const noexcept;
-};
-
-
-class Drink :public Product
+class Food :public Product
 {
 private:
-	int volume_ml;
+	int weight_grams;
+	// Nutrition per 100g
+	vector<double> nutrition;
+	double kcal, fat, carbohydrates, fibre, protein, salt;
 public:
-	Drink(string name, int volume_ml, int price_gr) noexcept;
-	virtual int get_weight() const noexcept;
+	Food(string name, int price_gr, int weight, vector<double> nutrition) noexcept;
+	int get_weight() const noexcept;
+	double get_kcal_per_100g() const noexcept;
+	double get_fat_per_100g() const noexcept;
+	double get_carbohydrates_per_100g() const noexcept;
+	double get_fibre_per_100g() const noexcept;
+	double get_protein_per_100g() const noexcept;
+	double get_salt_per_100g() const noexcept;
+	double get_kcal() const noexcept;
+	double get_fat() const noexcept;
+	double get_carbohydrates() const noexcept;
+	double get_fibre() const noexcept;
+	double get_protein() const noexcept;
+	double get_salt() const noexcept;
 };
 
 
-class Herb :public Product
-{
-public:
-	Herb(string name, int weight_grams, int price_gr) noexcept;
-	virtual int get_weight() const noexcept;
-};
-
-
-class Dairy :public Product
-{
-public:
-	Dairy(string name, int weight_grams, int price_gr) noexcept;
-	virtual int get_weight() const noexcept;
-};
-
-
-class PreparedMeal :public Product
+class Item :public Product
 {
 private:
 	int quantity;
 public:
-	PreparedMeal(string name, int quantity, int price_gr, int weight_grams) noexcept;
-	virtual int get_weight() const noexcept;
-};
-
-
-class Cosmetic : public Product
-{
-private:
-	int quantity;
-public:
-	Cosmetic(string name, int quantity, int price_gr, int weight_grams) noexcept;
-	virtual int get_weight() const noexcept;
+	Item(string name, int price_gr, int quantity) noexcept;
+	int get_quantity() const noexcept;
 };
