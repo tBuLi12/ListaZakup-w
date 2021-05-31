@@ -15,7 +15,7 @@ int Product::get_price() const noexcept
 }
 
 
-Food::Food(string name, int price_gr, int weight, vector<double> nutrition) noexcept
+Food::Food(string name, int price_gr, int weight, array<double, 6> nutrition) noexcept
 {
 	this->name = name;
 	this->price_gr = price_gr;

@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include <vector>
+#include<array>
 
 
 class Product
@@ -19,10 +19,9 @@ class Food :public Product
 private:
 	int weight_grams;
 	// Nutrition per 100g
-	std::vector<double> nutrition;
-	double kcal, fat, carbohydrates, fibre, protein, salt;
+	std::array<double, 6> nutrition;
 public:
-	Food(std::string name, int price_gr, int weight, std::vector<double> nutrition) noexcept;
+	Food(std::string name, int price_gr, int weight, std::array<double, 6> nutrition) noexcept;
 	int get_weight() const noexcept;
 	double get_kcal_per_100g() const noexcept;
 	double get_fat_per_100g() const noexcept;
