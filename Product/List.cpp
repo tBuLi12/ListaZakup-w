@@ -14,13 +14,13 @@ int List::get_total_price() const noexcept
 	return total_price_gr;
 }
 
-List::List(std::string list_name, std::vector<Product*> product_vector) {
+List::List(std::vector<Food*> product_vector, std::string list_name = "list") {
 
 	this->list_name = list_name;
 	this->products = product_vector;
 
-	int total_price;
-	int total_weight;
+	int total_price = 0;
+	int total_weight = 0;
 
 	
 	for (auto product : product_vector) {
@@ -29,4 +29,12 @@ List::List(std::string list_name, std::vector<Product*> product_vector) {
 	}
 	this->total_price_gr = total_price;
 	this->total_weight_grams = total_weight;
+}
+
+void List::add_product(Food* product_ptr) {
+
+	this->total_price_gr += product_ptr->get_price();
+	this->total_weight_grams += product_ptr->get_weight();
+
+	this->products.push_back(product_ptr);
 }
