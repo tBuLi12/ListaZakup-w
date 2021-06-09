@@ -27,11 +27,6 @@ Food::Food(string name, int price_gr, int weight, array<double, 6> nutrition) no
 	this->nutrition = nutrition;
 }
 
-int Food::get_weight() const noexcept
-{
-	return weight_grams;
-}
-
 double Food::get_kcal_per_100g() const noexcept
 {
 	return nutrition[0];
