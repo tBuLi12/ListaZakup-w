@@ -1,0 +1,3 @@
+COMMAND(NewList, true)
+COMMAND(DeleteList, false)
+COMMAND(Add, true)

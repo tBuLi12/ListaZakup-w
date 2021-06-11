@@ -2,44 +2,33 @@
 #define INTERFACE_HEADER
 
 #include <string>
+#include <vector>
 #include <unordered_map>
 #include "Product/List.h"
+#include <memory>
 
-
-bool cinEmpty();
-
-class CmdWord
+class UI
 {
-private:
-    std::string prompt;
-    //std::unordered_map<std::string, Command*> actions;
 public:
-    virtual ~CmdWord() = 0;
-    // returns true if the command entered was complete
-    virtual bool enter(std::string const& oldPrompt) = 0;
-};
+    class Command
+    {
+    public:
+        virtual ~Command() = 0;
+        virtual bool takesArgs() = 0;
+        virtual void exec(std::vector<std::string>) = 0;
+    };
 
-class Command: public CmdWord
-{
+    UI(std::string& listName);
+    void registerCommand(std::string name, std::unique_ptr<Command>&& command);
+    void run();
 private:
-    std::unordered_map<std::string, Command*> actions;
-public:
-    Command(std::unordered_map<std::string, Command*> actionList)
-};
+    //std::string getCommand(std::vector<std::string>& args);
+    //bool getArgs(std::vector<std::string>& args);
+    void prompt();
 
-class Agrument: public CmdWord
-{
-
-};
-
-class ChoiceMenu: public Command
-{
-private:
-    std::unordered_map<std::string, elemType*> choiceList;
-public:
-    ChoiceMenu(std::unordered_map<std::string, elemType*> list);
-    ~ChoiceMenu();
-    bool enter(std::string const& oldPrompt);
+    std::unordered_map<std::string, std::unique_ptr<Command>> commands{};
+    std::string selectedCommandName = "";
+    std::string& selectedListName;
 };
 
 
