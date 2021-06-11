@@ -17,7 +17,7 @@ public:
 	std::unordered_map<Product*, int> get_list();
 	int get_total_price() const noexcept;
 	int get_total_weight() const noexcept;
-	void add_product(Product* product_ptr, int quantity) noexcept;
+	void add_product(Product* product_ptr, int quantity = 1) noexcept;
 	void delete_product(Product* product) noexcept;
 	void set_count(Product* product_ptr, int quantity);
 	//@TODO delete_product
