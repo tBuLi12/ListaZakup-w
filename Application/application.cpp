@@ -59,7 +59,7 @@ DEFINE_CMD(Remove) {
     if (product == caller->products.end()) {
         throw BadProductException(args[0]);
     }
-    //caller->selected->delete_product(product->second);
+    caller->selected->delete_product(product->second);
     std::cout << args[0] << " removed." << std::endl;
 }
 
@@ -88,7 +88,7 @@ DEFINE_CMD(Count) {
     if (product == caller->products.end()) {
         throw BadProductException(args[0]);
     }
-    //caller->selected->set_count(product->second, std::stoi(args[1]));
+    caller->selected->set_count(product->second, std::stoi(args[1]));
     std::cout << "Count of " << args[0] << " set to " << args[1] << std::endl;
 }
 
