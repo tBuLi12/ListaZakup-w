@@ -32,7 +32,7 @@ int List::get_total_weight() const noexcept
 	return total;
 }
 
-List::List(std::string list_name) noexcept {
+List::List(std::string list_name) {
 
 	this->list_name = list_name;
 	this->products.clear();
@@ -54,13 +54,17 @@ void List::add_product(Product* product_ptr, int quantity) {
 
 	//this->total_price_gr += product_ptr->get_price();
 	//this->total_weight_grams += product_ptr->get_weight();
-	this->products.insert(std::make_pair<Product*, int>(product_ptr, quantity));
+	this->products.insert({product_ptr, quantity});
 }
 
 void List::delete_product(Product* product_ptr) {
 	this->products.erase(product_ptr);
 }
 void List::set_count(Product* product_ptr, int quantity) {
-	if (map.find(product_ptr) == map.end()) : return;
-	else: this->products[product_ptr] = quantity;
+	if (products.find(product_ptr) == products.end()) {
+		return;
+	} else {
+		this->products[product_ptr] = quantity;
+	}
+	 
 }

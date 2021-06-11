@@ -12,13 +12,13 @@ protected:
 	//int total_weight_grams = 0;
 	std::unordered_map<Product*, int> products;
 public:
-	List(std::string list_name) noexcept;
+	List(std::string list_name);
 	std::string const& get_list_name() const noexcept;
 	std::unordered_map<Product*, int> get_list();
 	int get_total_price() const noexcept;
 	int get_total_weight() const noexcept;
-	void add_product(Product* product_ptr, int quantity = 1) noexcept;
-	void delete_product(Product* product) noexcept;
+	void add_product(Product* product_ptr, int quantity = 1);
+	void delete_product(Product* product);
 	void set_count(Product* product_ptr, int quantity);
 	//@TODO delete_product
 };
