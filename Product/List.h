@@ -19,5 +19,6 @@ public:
 	int get_total_weight() const noexcept;
 	void add_product(Product* product_ptr, int quantity) noexcept;
 	void delete_product(Product* product) noexcept;
+	void set_count(Product* product_ptr, int quantity);
 	//@TODO delete_product
 };

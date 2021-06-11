@@ -60,3 +60,7 @@ void List::add_product(Product* product_ptr, int quantity) {
 void List::delete_product(Product* product_ptr) {
 	this->products.erase(product_ptr);
 }
+void List::set_count(Product* product_ptr, int quantity) {
+	if (map.find(product_ptr) == map.end()) : return;
+	else: this->products[product_ptr] = quantity;
+}
