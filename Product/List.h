@@ -12,7 +12,7 @@ protected:
 	//int total_weight_grams = 0;
 	std::unordered_map<Product*, int> products;
 public:
-	List(std::string list_name = "list") noexcept;
+	List(std::string list_name) noexcept;
 	std::string const& get_list_name() const noexcept;
 	std::unordered_map<Product*, int> get_list();
 	int get_total_price() const noexcept;

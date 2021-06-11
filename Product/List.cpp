@@ -18,7 +18,7 @@ int List::get_total_price() const noexcept
 {
 	int total = 0;
 	for (auto item: products) {
-		total += item->get_price();
+		total += item.second*item.first->get_price();
 	}
 	return total;
 }
@@ -27,12 +27,12 @@ int List::get_total_weight() const noexcept
 {
 	int total = 0;
 	for (auto item: products) {
-		total += item->get_price();
+		total += item.second*item.first->get_weight();
 	}
 	return total;
 }
 
-List::List(std::string list_name = "list") {
+List::List(std::string list_name) noexcept {
 
 	this->list_name = list_name;
 	this->products.clear();
