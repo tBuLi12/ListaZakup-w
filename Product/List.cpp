@@ -9,6 +9,11 @@ std::string const& List::get_list_name() const noexcept
 	return list_name;
 }
 
+
+std::unordered_map<Product*, int> List::get_list() {
+	return this->products;
+}
+
 int List::get_total_price() const noexcept
 {
 	int total = 0;
@@ -45,10 +50,13 @@ List::List(std::string list_name = "list") {
 	*/
 }
 
-void List::add_product(Product* product_ptr) {
+void List::add_product(Product* product_ptr, int quantity) {
 
 	//this->total_price_gr += product_ptr->get_price();
 	//this->total_weight_grams += product_ptr->get_weight();
+	this->products.insert(std::make_pair<Product*, int>(product_ptr, quantity));
+}
 
-	this->products.insert(product_ptr);
+void List::delete_product(Product* product_ptr) {
+	this->products.erase(product_ptr);
 }
