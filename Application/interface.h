@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "Product/List.h"
+#include "../Product/List.h"
 #include <memory>
 
 class UI
@@ -18,17 +18,18 @@ public:
         virtual void exec(std::vector<std::string>) = 0;
     };
 
-    UI(std::string& listName);
+    UI(List* const& listPtr);
     void registerCommand(std::string name, std::unique_ptr<Command>&& command);
     void run();
 private:
     //std::string getCommand(std::vector<std::string>& args);
     //bool getArgs(std::vector<std::string>& args);
     void prompt();
+    void runCommand(std::unique_ptr<Command>& cmd, std::vector<std::string> args);
 
     std::unordered_map<std::string, std::unique_ptr<Command>> commands{};
     std::string selectedCommandName = "";
-    std::string& selectedListName;
+    List* const& selectedList;
 };
 
 

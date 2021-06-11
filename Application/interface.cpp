@@ -1,4 +1,5 @@
 #include "interface.h"
+#include "listExceptions.h"
 #include <string>
 #include <vector>
 #include <sstream>
@@ -28,10 +29,11 @@ bool getArgs(std::vector<std::string>& args) {
     std::string temp;
     getline(std::cin, temp);
     std::stringstream argsStrStream(temp);
-    return false;
+    parseArgs(argsStrStream, args);
+    return (args.size() == 0 || args[0] != "..");
 }
 
-UI::UI(std::string& listName): selectedListName(listName) {};
+UI::UI(List* const& listPtr): selectedList(listPtr) {};
 
 void UI::registerCommand(std::string name, std::unique_ptr<Command>&& command) {
     this->commands[name] = std::move(command);
@@ -40,29 +42,48 @@ void UI::registerCommand(std::string name, std::unique_ptr<Command>&& command) {
 void UI::run() {
     std::vector<std::string> args;
     std::string commandName;
-    while (true) {
+    bool exit = false;
+    while (!exit) {
         prompt();
         commandName = getCommand(args);
         auto mapCommand = commands.find(commandName);
         if (mapCommand != commands.end()) {
             if (mapCommand->second->takesArgs() && args.size() == 0) {
-                //while (getArgs(args)) {
-                //    mapCommand->second->exec(args);    
-                //}
+                selectedCommandName = commandName;
+                prompt();
+                while (getArgs(args)) {
+                    runCommand(mapCommand->second, args);
+                    prompt();
+                }
+                selectedCommandName = "";
             } else {
-                mapCommand->second->exec(args);
+                runCommand(mapCommand->second, args);
             }
         } else if (commandName == "quit") {
-            return;
+            exit = true;
         } else {
             std::cout << "unknown command: " << commandName << std::endl;
         }
     }
 }
 
-void UI::prompt() {
-    std::cout << selectedListName << '>';
+void UI::runCommand(std::unique_ptr<Command>& cmd, std::vector<std::string> args) {
+    try {
+        cmd->exec(args);
+    }
+    catch (ListException& exception) {
+        std::cout << exception.what() << std::endl;
+    }
+    catch (std::invalid_argument& exception) {
+        std::cout << "count argument must be a positive integer" << std::endl;
+    }
 }
+
+
+void UI::prompt() {
+    std::cout << ((selectedList == nullptr)?"(No list selected)":selectedList->get_list_name()) << selectedCommandName <<'>';
+}
+
 
 UI::Command::~Command() {};
 
