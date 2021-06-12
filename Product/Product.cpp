@@ -104,5 +104,3 @@ std::string Item::get_info() const noexcept
 {
 	return hazards;
 }
-
-
