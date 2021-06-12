@@ -17,7 +17,7 @@ public:
 	List(std::string const& list_name) noexcept;
 	List(std::string&& list_name) noexcept;
 	std::string const& get_list_name() const noexcept;
-	//std::unordered_map<Product*, int> get_list();
+	std::unordered_map<const Product*, p_count> get_list();
 	int get_total_price() const noexcept;
 	int get_total_weight() const noexcept;
 	void add_product(const Product* product_ptr, p_count quantity = 1);

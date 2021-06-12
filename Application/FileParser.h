@@ -22,6 +22,7 @@ public:
 		std::unordered_map<std::string, Product*>& products,
 		std::unordered_map<std::string, List*>& lists
 	);
+	~FileParser();
 	void readFromFiles() {
 		loadItems();
 		loadProducts();

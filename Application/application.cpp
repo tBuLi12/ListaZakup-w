@@ -120,6 +120,7 @@ DEFINE_CMD(Print) {
 }
 
 Application::Application(): interface(UI::get()) {
+    parser = FileParser(products, lists);
     interface.setPromptData(NO_LIST);
     #define COMMAND(name, hasArgs) interface.registerCommand(#name, std::unique_ptr<UI::Command>(new name(this)));
     #include "commands.cmds"

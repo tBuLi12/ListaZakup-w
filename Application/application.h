@@ -4,8 +4,10 @@
 #include "interface.h"
 #include "../Product/List.h"
 #include "../Product/Product.h"
+#include "FileParser.h"
 #include <unordered_map>
 #include <string>
+
 
 class Application
 {
@@ -31,8 +33,7 @@ private:
 
     List* selected = nullptr;
     UI& interface;
-    void readFromFiles();
-    void writeToFiles();
+    FileParser parser;
     std::unordered_map<std::string, Product*> products;
     std::unordered_map<std::string, List*> lists;
     Application();

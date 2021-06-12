@@ -7,9 +7,9 @@ std::string const& List::get_list_name() const noexcept
 }
 
 
-// std::unordered_map<Product*, p_count> List::get_list() {
-// 	return this->products;
-// }
+std::unordered_map<const Product*, p_count> List::get_list() {
+ 	return this->products;
+}
 
 int List::get_total_price() const noexcept
 {

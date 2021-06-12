@@ -11,6 +11,15 @@ FileParser::FileParser(
 	basePath /= "Data";
 }
 
+FileParser::~FileParser()
+{
+	for (auto& product : products)
+	{
+		auto productPtr = product.second;
+		delete productPtr;
+	}
+}
+
 void FileParser::loadItems()
 {
 	namespace fs = std::filesystem;
