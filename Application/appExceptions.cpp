@@ -1,6 +1,6 @@
-#include "listExceptions.h"
+#include "appExceptions.h"
 
-const char* ListException::what() const noexcept {
+const char* AppException::what() const noexcept {
     return message.c_str();
 }
 

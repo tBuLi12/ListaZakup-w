@@ -1,5 +1,5 @@
 #include "interface.h"
-#include "listExceptions.h"
+#include "appExceptions.h"
 #include <string>
 #include <vector>
 #include <sstream>
@@ -71,7 +71,7 @@ void UI::runCommand(std::unique_ptr<Command>& cmd, std::vector<std::string> args
     try {
         cmd->exec(args);
     }
-    catch (ListException& exception) {
+    catch (AppException& exception) {
         std::cout << exception.what() << std::endl;
     }
     catch (std::invalid_argument& exception) {

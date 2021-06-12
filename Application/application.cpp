@@ -1,6 +1,6 @@
 #include "application.h"
 #include "interface.h"
-#include "listExceptions.h"
+#include "appExceptions.h"
 #include <memory>
 #include <iostream>
 #define DEFINE_CMD(name) void Application::name::exec(std::vector<std::string> args) 
