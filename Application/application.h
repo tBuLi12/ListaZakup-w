@@ -24,20 +24,23 @@ private:
     public:\
         name(Application* app): AppCommand(app) {};\
         void exec(std::vector<std::string> args);\
-        bool takesArgs() { return hasArgs; }\
+        bool takesArgs() const noexcept { return hasArgs; }\
     };
     #include "commands.cmds"
     #undef COMMAND
 
     List* selected = nullptr;
-    UI interface;
+    UI& interface;
     void readFromFiles();
     void writeToFiles();
     std::unordered_map<std::string, Product*> products;
     std::unordered_map<std::string, List*> lists;
-public:
-    void run();
     Application();
+public:
+    Application(Application const&) = delete;
+    Application& operator=(Application const&) = delete;
+    static Application& get();
+    void run();
 };
 
 #endif

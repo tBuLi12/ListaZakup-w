@@ -1,5 +1,5 @@
 #include "interface.h"
-#include "listExceptions.h"
+#include "appExceptions.h"
 #include <string>
 #include <vector>
 #include <sstream>
@@ -33,7 +33,7 @@ bool getArgs(std::vector<std::string>& args) {
     return (args.size() == 0 || args[0] != "..");
 }
 
-UI::UI(List* const& listPtr): selectedList(listPtr) {};
+UI::UI() {};
 
 void UI::registerCommand(std::string name, std::unique_ptr<Command>&& command) {
     this->commands[name] = std::move(command);
@@ -71,7 +71,7 @@ void UI::runCommand(std::unique_ptr<Command>& cmd, std::vector<std::string> args
     try {
         cmd->exec(args);
     }
-    catch (ListException& exception) {
+    catch (AppException& exception) {
         std::cout << exception.what() << std::endl;
     }
     catch (std::invalid_argument& exception) {
@@ -79,9 +79,17 @@ void UI::runCommand(std::unique_ptr<Command>& cmd, std::vector<std::string> args
     }
 }
 
+void UI::setPromptData(std::string const& data) {
+    promptData = data;
+}
 
-void UI::prompt() {
-    std::cout << ((selectedList == nullptr)?"(No list selected)":selectedList->get_list_name()) << selectedCommandName <<'>';
+void UI::prompt() const noexcept {
+    std::cout << promptData << selectedCommandName <<'>';
+}
+
+UI& UI::get() {
+    static UI interface;
+    return interface;
 }
 
 

@@ -1,14 +1,17 @@
+#ifndef APP_EXCEPTIONS_HEADER
+#define APP_EXCEPTIONS_HEADER
+
 #include <exception>
 #include <string>
 
-class ListException: public std::exception {
+class AppException: public std::exception {
 protected:
     std::string message{};
 public:
     const char* what() const noexcept;
 };
 
-class ListExistsException: public ListException
+class ListExistsException: public AppException
 {
 private:
     std::string listName;
@@ -16,13 +19,13 @@ public:
     ListExistsException(std::string const& name);
 };
 
-class NoListSelectedException: public ListException
+class NoListSelectedException: public AppException
 {
 public:
     NoListSelectedException();
 };
 
-class BadProductException: public ListException
+class BadProductException: public AppException
 {
 private:
     std::string productName;
@@ -30,7 +33,15 @@ public:
     BadProductException(std::string const& name);
 };
 
-class ProductNotOnListException: public ListException
+class BadListException: public AppException
+{
+private:
+    std::string listName;
+public:
+    BadListException(std::string const& name);
+};
+
+class ProductNotOnListException: public AppException
 {
 private:
     std::string productName;
@@ -39,7 +50,7 @@ public:
     ProductNotOnListException(std::string const& lName, std::string const& prodName);
 };
 
-class NotEnoughArgsException: public ListException
+class NotEnoughArgsException: public AppException
 {
 private:
     int provided;
@@ -47,3 +58,5 @@ private:
 public:
     NotEnoughArgsException(int takes, int got);
 };
+
+#endif

@@ -1,7 +1,4 @@
 #include "List.h"
-#include<string>
-#include<set>
-
 
 
 std::string const& List::get_list_name() const noexcept
@@ -10,9 +7,9 @@ std::string const& List::get_list_name() const noexcept
 }
 
 
-std::unordered_map<Product*, int> List::get_list() {
-	return this->products;
-}
+// std::unordered_map<Product*, p_count> List::get_list() {
+// 	return this->products;
+// }
 
 int List::get_total_price() const noexcept
 {
@@ -32,35 +29,21 @@ int List::get_total_weight() const noexcept
 	return total;
 }
 
-List::List(std::string list_name) {
+List::List(std::string const& list_name) noexcept: list_name(list_name) {};
 
-	this->list_name = list_name;
-	this->products.clear();
+List::List(std::string&& list_name) noexcept: list_name(std::move(list_name)) {};
 
-	//int total_price = 0;
-	//int total_weight = 0;
-
-	/*
-	for (auto product : product_set) {
-		total_price += product->get_price();
-		total_weight += product->get_weight();
-	}
-	this->total_price_gr = total_price;
-	this->total_weight_grams = total_weight;
-	*/
-}
-
-void List::add_product(Product* product_ptr, int quantity) {
+void List::add_product(const Product* product_ptr, p_count quantity) {
 
 	//this->total_price_gr += product_ptr->get_price();
 	//this->total_weight_grams += product_ptr->get_weight();
 	this->products.insert({product_ptr, quantity});
 }
 
-void List::delete_product(Product* product_ptr) {
+void List::delete_product(const Product* product_ptr) {
 	this->products.erase(product_ptr);
 }
-void List::set_count(Product* product_ptr, int quantity) {
+void List::set_count(const Product* product_ptr, p_count quantity) {
 	if (products.find(product_ptr) == products.end()) {
 		return;
 	} else {

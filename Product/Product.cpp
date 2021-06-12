@@ -1,8 +1,12 @@
 #include "Product.h"
-#include <stdexcept>
 
 using namespace std;
 
+Product::Product(std::string const& name, int price, int weight) noexcept:
+	name(name), price_gr(price), weight_grams(weight) {};
+
+Product::Product(std::string&& name, int price, int weight) noexcept:
+	name(std::move(name)), price_gr(price), weight_grams(weight) {};
 
 string const& Product::get_name() const noexcept
 {
@@ -19,13 +23,11 @@ int Product::get_weight() const noexcept
 	return weight_grams;
 }
 
-Food::Food(string name, int price_gr, int weight, array<double, 6> nutrition) noexcept
-{
-	this->name = name;
-	this->price_gr = price_gr;
-	weight_grams = weight;
-	this->nutrition = nutrition;
-}
+Food::Food(string const& name, int price, int weight, array<double, 6> const& nutrition) noexcept:
+	Product(name, price, weight), nutrition(nutrition) {};
+
+Food::Food(string&& name, int price, int weight, array<double, 6> const& nutrition) noexcept:
+	Product(std::move(name), price, weight), nutrition(nutrition) {};
 
 double Food::get_kcal_per_100g() const noexcept
 {
@@ -92,13 +94,11 @@ std::string Food::get_info() const noexcept
 	return "info";
 }
 
-Item::Item(string name, int price_gr, int weight, std::string hazards) noexcept
-{
-	this->name = name;
-	this->price_gr = price_gr;
-	this->weight_grams = weight;
-	this->hazards = hazards;
-}
+Item::Item(string const& name, int price, int weight, std::string hazards) noexcept:
+	Product(name, price, weight), hazards(hazards) {};
+
+Item::Item(string&& name, int price, int weight, std::string hazards) noexcept:
+	Product(std::move(name), price, weight), hazards(hazards) {};
 
 std::string Item::get_info() const noexcept
 {
