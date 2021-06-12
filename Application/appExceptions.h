@@ -1,3 +1,6 @@
+#ifndef APP_EXCEPTIONS_HEADER
+#define APP_EXCEPTIONS_HEADER
+
 #include <exception>
 #include <string>
 
@@ -47,3 +50,5 @@ private:
 public:
     NotEnoughArgsException(int takes, int got);
 };
+
+#endif

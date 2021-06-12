@@ -1,7 +1,4 @@
 #include "List.h"
-#include<string>
-#include<set>
-
 
 
 std::string const& List::get_list_name() const noexcept
@@ -10,9 +7,9 @@ std::string const& List::get_list_name() const noexcept
 }
 
 
-std::unordered_map<Product*, int> List::get_list() {
-	return this->products;
-}
+// std::unordered_map<Product*, p_count> List::get_list() {
+// 	return this->products;
+// }
 
 int List::get_total_price() const noexcept
 {
@@ -50,7 +47,7 @@ List::List(std::string list_name) {
 	*/
 }
 
-void List::add_product(Product* product_ptr, int quantity) {
+void List::add_product(Product* product_ptr, p_count quantity) {
 
 	//this->total_price_gr += product_ptr->get_price();
 	//this->total_weight_grams += product_ptr->get_weight();
@@ -60,7 +57,7 @@ void List::add_product(Product* product_ptr, int quantity) {
 void List::delete_product(Product* product_ptr) {
 	this->products.erase(product_ptr);
 }
-void List::set_count(Product* product_ptr, int quantity) {
+void List::set_count(Product* product_ptr, p_count quantity) {
 	if (products.find(product_ptr) == products.end()) {
 		return;
 	} else {
