@@ -24,3 +24,7 @@ NotEnoughArgsException::NotEnoughArgsException(int takes, int got): provided(got
     message = "Not enough arguments - " + std::to_string(provided) + " were given, " + std::to_string(needed) + " are needed";
 }
 
+BadListException::BadListException(std::string const& name): listName(name) {
+    message = "Product named \"" + listName + "\" does not exists";
+}
+

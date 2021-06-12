@@ -72,9 +72,6 @@ DEFINE_CMD(Remove) {
 }
 
 DEFINE_CMD(Info) {
-    if (caller->selected == nullptr) {
-        throw NoListSelectedException();
-    }
     if (args.size() < 1) {
         throw NotEnoughArgsException(1, args.size());
     }
@@ -98,6 +95,24 @@ DEFINE_CMD(Count) {
     }
     caller->selected->set_count(product->second, strToCount(args[1]));
     std::cout << "Count of " << args[0] << " set to " << args[1] << std::endl;
+}
+
+DEFINE_CMD(Select) {
+    if (args.size() < 1) {
+        throw NotEnoughArgsException(1, args.size());
+    }
+    auto list = caller->lists.find(args[0]);
+    if (list == caller->lists.end()) {
+        throw BadListException(args[0]);
+    }
+    caller->selected = list->second;
+}
+
+DEFINE_CMD(Print) {
+    if (caller->selected == nullptr) {
+        throw NoListSelectedException();
+    }
+    std::cout << (*(caller->selected)) << std::endl;
 }
 
 Application::Application(): interface(selected) {

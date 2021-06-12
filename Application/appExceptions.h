@@ -33,6 +33,14 @@ public:
     BadProductException(std::string const& name);
 };
 
+class BadListException: public AppException
+{
+private:
+    std::string listName;
+public:
+    BadListException(std::string const& name);
+};
+
 class ProductNotOnListException: public AppException
 {
 private:
