@@ -29,23 +29,9 @@ int List::get_total_weight() const noexcept
 	return total;
 }
 
-List::List(std::string list_name) noexcept {
+List::List(std::string const& list_name) noexcept: list_name(list_name) {};
 
-	this->list_name = list_name;
-	this->products.clear();
-
-	//int total_price = 0;
-	//int total_weight = 0;
-
-	/*
-	for (auto product : product_set) {
-		total_price += product->get_price();
-		total_weight += product->get_weight();
-	}
-	this->total_price_gr = total_price;
-	this->total_weight_grams = total_weight;
-	*/
-}
+List::List(std::string&& list_name) noexcept: list_name(std::move(list_name)) {};
 
 void List::add_product(const Product* product_ptr, p_count quantity) {
 

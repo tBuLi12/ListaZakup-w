@@ -12,9 +12,10 @@ class List
 {
 protected:
 	std::string list_name;
-	std::unordered_map<const Product*, p_count> products;
+	std::unordered_map<const Product*, p_count> products {};
 public:
-	List(std::string list_name) noexcept;
+	List(std::string const& list_name) noexcept;
+	List(std::string&& list_name) noexcept;
 	std::string const& get_list_name() const noexcept;
 	//std::unordered_map<Product*, int> get_list();
 	int get_total_price() const noexcept;

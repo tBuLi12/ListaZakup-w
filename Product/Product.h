@@ -23,7 +23,8 @@ protected:
 	int price_gr;
 	int weight_grams;
 public:
-	Product(std::string name, int price_gr, int weight) noexcept;
+	Product(std::string const& name, int price_gr, int weight) noexcept;
+	Product(std::string&& name, int price_gr, int weight) noexcept;
 	std::string const& get_name() const noexcept;
 	int get_price() const noexcept;
 	int get_weight() const noexcept;
@@ -37,7 +38,8 @@ private:
 	// Nutrition per 100g
 	std::array<double, 6> nutrition;
 public:
-	Food(std::string name, int price_gr, int weight, std::array<double, 6> nutrition) noexcept;
+	Food(std::string const& name, int price_gr, int weight, std::array<double, 6> const& nutrition) noexcept;
+	Food(std::string&& name, int price_gr, int weight, std::array<double, 6> const& nutrition) noexcept;
 	//int get_weight() const noexcept;
 	double get_kcal_per_100g() const noexcept;
 	double get_fat_per_100g() const noexcept;
@@ -60,7 +62,9 @@ class Item :public Product
 private:
 	std::string hazards;
 public:
-	Item(std::string name, int price, int weight, std::string haz) noexcept;
+	Item(std::string const& name, int price, int weight, std::string haz) noexcept;
+	Item(std::string&& name, int price, int weight, std::string haz) noexcept;
+
 	std::string get_info() const noexcept;
 	//int get_quantity() const noexcept;
 };
