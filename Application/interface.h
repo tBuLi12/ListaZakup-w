@@ -14,17 +14,17 @@ public:
     {
     public:
         virtual ~Command() = 0;
-        virtual bool takesArgs() = 0;
+        virtual bool takesArgs() const noexcept = 0;
         virtual void exec(std::vector<std::string>) = 0;
     };
 
-    UI(List* const& listPtr);
+    UI(List* const& listPtr) noexcept ;
     void registerCommand(std::string name, std::unique_ptr<Command>&& command);
     void run();
 private:
     //std::string getCommand(std::vector<std::string>& args);
     //bool getArgs(std::vector<std::string>& args);
-    void prompt();
+    void prompt() const noexcept;
     void runCommand(std::unique_ptr<Command>& cmd, std::vector<std::string> args);
 
     std::unordered_map<std::string, std::unique_ptr<Command>> commands{};

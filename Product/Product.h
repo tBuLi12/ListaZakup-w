@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PRODUCT_HEADER
+#define PRODUCT_HEADER
+
 #include <string>
 #include <array>
 
@@ -21,6 +23,7 @@ protected:
 	int price_gr;
 	int weight_grams;
 public:
+	Product(std::string name, int price_gr, int weight) noexcept;
 	std::string const& get_name() const noexcept;
 	int get_price() const noexcept;
 	int get_weight() const noexcept;
@@ -61,3 +64,5 @@ public:
 	std::string get_info() const noexcept;
 	//int get_quantity() const noexcept;
 };
+
+#endif

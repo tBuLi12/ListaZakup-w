@@ -24,7 +24,7 @@ private:
     public:\
         name(Application* app): AppCommand(app) {};\
         void exec(std::vector<std::string> args);\
-        bool takesArgs() { return hasArgs; }\
+        bool takesArgs() { return hasArgs; } const noexcept\
     };
     #include "commands.cmds"
     #undef COMMAND
