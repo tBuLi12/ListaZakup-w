@@ -33,7 +33,7 @@ bool getArgs(std::vector<std::string>& args) {
     return (args.size() == 0 || args[0] != "..");
 }
 
-UI::UI(List* const& listPtr) noexcept: selectedList(listPtr) {};
+UI::UI() {};
 
 void UI::registerCommand(std::string name, std::unique_ptr<Command>&& command) {
     this->commands[name] = std::move(command);
@@ -79,9 +79,17 @@ void UI::runCommand(std::unique_ptr<Command>& cmd, std::vector<std::string> args
     }
 }
 
+void UI::setPromptData(std::string const& data) {
+    promptData = data;
+}
 
 void UI::prompt() const noexcept {
-    std::cout << ((selectedList == nullptr)?"(No list selected)":selectedList->get_list_name()) << selectedCommandName <<'>';
+    std::cout << promptData << selectedCommandName <<'>';
+}
+
+UI& UI::get() {
+    static UI interface;
+    return interface;
 }
 
 

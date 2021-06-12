@@ -3,6 +3,7 @@
 #include <memory>
 #include <iostream>
 
+#define NO_LIST "(No list selected)"
 #define DEFINE_CMD(name) void Application::name::exec(std::vector<std::string> args) 
 
 p_count strToCount(std::string const& str) {
@@ -23,6 +24,7 @@ DEFINE_CMD(NewList) {
     }
     caller->lists[args[0]] = new List(args[0]);
     caller->selected = caller->lists[args[0]];
+    caller->interface.setPromptData(args[0]);
     std::cout << "List " << args[0] << " created." << std::endl;
 }
 
@@ -68,6 +70,7 @@ DEFINE_CMD(Remove) {
         throw BadProductException(args[0]);
     }
     caller->selected->delete_product(product->second);
+    caller->interface.setPromptData(NO_LIST);
     std::cout << args[0] << " removed." << std::endl;
 }
 
@@ -106,16 +109,18 @@ DEFINE_CMD(Select) {
         throw BadListException(args[0]);
     }
     caller->selected = list->second;
+    caller->interface.setPromptData(args[0]);
 }
 
 DEFINE_CMD(Print) {
     if (caller->selected == nullptr) {
         throw NoListSelectedException();
     }
-    std::cout << (*(caller->selected)) << std::endl;
+    //std::cout << (*(caller->selected)) << std::endl;
 }
 
-Application::Application(): interface(selected) {
+Application::Application(): interface(UI::get()) {
+    interface.setPromptData(NO_LIST);
     #define COMMAND(name, hasArgs) interface.registerCommand(#name, std::unique_ptr<UI::Command>(new name(this)));
     #include "commands.cmds"
     #undef COMMAND
@@ -123,4 +128,9 @@ Application::Application(): interface(selected) {
 
 void Application::run() {
     interface.run();
+}
+
+Application& Application::get() {
+    static Application app;
+    return app;
 }
