@@ -46,13 +46,16 @@ void UI::run() {
     while (!exit) {
         prompt();
         getline(std::cin, commandName);
-        args.clear();
+        args.str().clear();
         args << commandName;
         args >> commandName;
         auto mapCommand = commands.find(commandName);
         if (mapCommand != commands.end()) {
             while (runCommand(mapCommand->second, args)) {
-                prompt();
+                prompt(mapCommand->first);
+                getline(std::cin, commandName);
+                args.str().clear();
+                args << commandName;
             }
         } else if (commandName == "quit") {
             exit = true;
@@ -80,8 +83,12 @@ void UI::setPromptData(std::string const& data) {
     promptData = data;
 }
 
+void UI::prompt(std::string const& cmdName) const noexcept {
+    std::cout << promptData << " - " << cmdName <<" > ";
+}
+
 void UI::prompt() const noexcept {
-    std::cout << promptData << selectedCommandName <<'>';
+    std::cout << promptData <<" > ";
 }
 
 UI& UI::get() {

@@ -4,7 +4,7 @@
 #include <iostream>
 
 #define NO_LIST "(No list selected)"
-#define DEFINE_CMD(name) bool Application::name::exec(std::stringstream& args) 
+#define DEFINE_CMD(name) bool Application::Command_##name::exec(std::stringstream& args) 
 
 p_count strToCount(std::string const& str) {
     unsigned long lCount = std::stoul(str);
@@ -167,7 +167,7 @@ DEFINE_CMD(Print) {
 
 Application::Application(): interface(UI::get()), parser(*this) {
     interface.setPromptData(NO_LIST);
-    #define COMMAND(name) interface.registerCommand(#name, std::unique_ptr<UI::Command>(new name(this)));
+    #define COMMAND(name) interface.registerCommand(#name, std::unique_ptr<UI::Command>(new Command_##name(this)));
     #include "commands.cmds"
     #undef COMMAND
 }

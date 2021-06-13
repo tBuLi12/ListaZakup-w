@@ -54,7 +54,7 @@ void FileParser::loadLists()
 	auto currPath = basePath;
 	currPath += "/Lists";
 
-	Application::Add adder(&app);
+	Application::Command_Add adder(&app);
 
 	for (auto& filePath : fs::directory_iterator(currPath))
 	{

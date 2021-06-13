@@ -29,6 +29,7 @@ private:
     //std::string getCommand(std::vector<std::string>& args);
     //bool getArgs(std::vector<std::string>& args);
     void prompt() const noexcept;
+    void prompt(std::string const& cmdName) const noexcept;
     bool runCommand(std::unique_ptr<Command>& cmd, std::stringstream& args);
 
     std::unordered_map<std::string, std::unique_ptr<Command>> commands{};

@@ -22,10 +22,10 @@ public:
     };
 
     #define COMMAND(name) \
-    class name: public AppCommand\
+    class Command_##name: public AppCommand\
     {\
     public:\
-        name(Application* app): AppCommand(app) {};\
+        Command_##name(Application* app): AppCommand(app) {};\
         bool exec(std::stringstream& args);\
     };
     #include "commands.cmds"
