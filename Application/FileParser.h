@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PARSER_HEADER
+#define PARSER_HEADER
 
 #include "../Product/List.h"
 #include "../Product/Product.h"
@@ -6,22 +7,18 @@
 #include <unordered_map>
 #include <filesystem>
 
+class Application;
 class FileParser
 {
 private:
 	std::filesystem::path basePath;
-	std::unordered_map<std::string, Product*>& products;
-	std::unordered_map<std::string, List*>& lists;
-
+	Application& app;
 	void loadItems();
 	void loadProducts();
 	void loadLists();
 
 public:
-	FileParser(
-		std::unordered_map<std::string, Product*>& products,
-		std::unordered_map<std::string, List*>& lists
-	);
+	FileParser(Application&);
 	void readFromFiles() {
 		loadItems();
 		loadProducts();
@@ -29,3 +26,5 @@ public:
 	}
 	void writeToFiles();
 };
+
+#endif

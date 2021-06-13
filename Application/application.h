@@ -12,7 +12,7 @@
 
 class Application
 {
-private:
+public:
     class AppCommand: public UI::Command
     {
     protected:
@@ -34,9 +34,13 @@ private:
     List* selected = nullptr;
     UI& interface;
     FileParser parser;
+    void readFromFiles();
+    void writeToFiles();
     std::unordered_map<std::string, Product*> products;
     std::unordered_map<std::string, List*> lists;
     Application();
+
+    //friend class ::FileParser;
 public:
     Application(Application const&) = delete;
     Application& operator=(Application const&) = delete;

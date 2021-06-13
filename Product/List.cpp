@@ -55,17 +55,10 @@ std::ostream& operator<<(std::ostream& stream, List& list)
 {
 	for (auto& list_element : list.products)
 	{
-		std::string name = list_element.first->get_name();
-		p_count quantity = list_element.second;
-		if (name.find(' ') != std::string::npos)
-		{
-			stream << "\"" << name << "\" ";
+		if (list_element.second != 0) {
+			stream << std::to_string(list_element.second) << ' ';
 		}
-		else
-		{
-			stream << name << " ";
-		}
-		stream << quantity << "\n";
+		stream << list_element.first->get_name() << std::endl;
 	}
 	return stream;
 }

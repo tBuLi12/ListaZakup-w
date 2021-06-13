@@ -1,3 +1,0 @@
-kalosze;3
-chleb;2
-czapka;8

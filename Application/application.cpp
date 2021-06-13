@@ -40,6 +40,7 @@ DEFINE_CMD(NewList) {
     caller->selected = caller->lists[listName];
     caller->interface.setPromptData(listName);
     std::cout << "List " << listName << " created." << std::endl;
+    return false;
 }
 
 DEFINE_CMD(DeleteList) {
@@ -51,6 +52,7 @@ DEFINE_CMD(DeleteList) {
     delete caller->selected;
     caller->selected = nullptr;
     caller->interface.setPromptData(NO_LIST);
+    return false;
 }
 
 DEFINE_CMD(Add) {
@@ -81,6 +83,7 @@ DEFINE_CMD(Add) {
         caller->selected->add_product(product->second, count);
         std::cout << std::to_string(count) << '*' << productName << " added." << std::endl;
     }
+    return false;
 }
 
 DEFINE_CMD(Remove) {
@@ -97,6 +100,7 @@ DEFINE_CMD(Remove) {
     }
     caller->selected->delete_product(product->second);
     std::cout << productName << " removed." << std::endl;
+    return false;
 }
 
 DEFINE_CMD(Info) {
@@ -109,6 +113,7 @@ DEFINE_CMD(Info) {
         throw BadProductException(productName);
     }
     std::cout << product->second->get_info();
+    return false;
 }
 
 DEFINE_CMD(Count) {
@@ -135,6 +140,7 @@ DEFINE_CMD(Count) {
     }
     caller->selected->set_count(product->second, count);
     std::cout << "Count of " << productName << " set to " << count << std::endl;
+    return false;
 }
 
 DEFINE_CMD(Select) {
@@ -148,19 +154,20 @@ DEFINE_CMD(Select) {
     }
     caller->selected = list->second;
     caller->interface.setPromptData(listName);
+    return false;
 }
 
 DEFINE_CMD(Print) {
     if (caller->selected == nullptr) {
         throw NoListSelectedException();
     }
-    //std::cout << (*(caller->selected)) << std::endl;
+    std::cout << (*(caller->selected)) << std::endl;
+    return false;
 }
 
-Application::Application(): interface(UI::get()) {
-    parser = FileParser(products, lists);
+Application::Application(): interface(UI::get()), parser(*this) {
     interface.setPromptData(NO_LIST);
-    #define COMMAND(name, hasArgs) interface.registerCommand(#name, std::unique_ptr<UI::Command>(new name(this)));
+    #define COMMAND(name) interface.registerCommand(#name, std::unique_ptr<UI::Command>(new name(this)));
     #include "commands.cmds"
     #undef COMMAND
 }

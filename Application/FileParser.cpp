@@ -1,11 +1,9 @@
 #include "FileParser.h"
+#include "application.h"
 #include <fstream>
 #include <cstdio>
 
-FileParser::FileParser(
-	std::unordered_map<std::string, Product*>& products,
-	std::unordered_map<std::string, List*>& lists
-) : products(products), lists(lists)
+FileParser::FileParser(Application& app) : app(app)
 {
 	basePath = std::filesystem::current_path();
 	basePath /= "Data";
@@ -15,7 +13,7 @@ void FileParser::loadItems()
 {
 	namespace fs = std::filesystem;
 	auto currPath = basePath;
-	currPath += "\\Products\\Items";
+	currPath += "/Products/Items";
 	for (auto& filePath : fs::directory_iterator(currPath))
 	{
 		auto name = filePath.path().stem().string();
@@ -25,7 +23,7 @@ void FileParser::loadItems()
 		std::string hazards;
 		getline(file, hazards, '\n');
 		hazards = hazards.erase(0, 1);
-		products.insert({ name, new Item(name, price, weight, hazards) });
+		app.products.insert({ name, new Item(name, price, weight, hazards) });
 		file.close();
 	}
 }
@@ -34,7 +32,7 @@ void FileParser::loadProducts()
 {
 	namespace fs = std::filesystem;
 	auto currPath = basePath;
-	currPath += "\\Products\\Food";
+	currPath += "/Products/Food";
 	for (auto& filePath : fs::directory_iterator(currPath))
 	{
 		auto name = filePath.path().stem().string();
@@ -45,7 +43,7 @@ void FileParser::loadProducts()
 		for (size_t i = 0; i < 6; ++i) {
 			file >> arr[i];
 		}
-		products.insert({ name, new Food(name, price, weight, arr) });
+		app.products.insert({ name, new Food(name, price, weight, arr) });
 		file.close();
 	}
 }
@@ -54,27 +52,28 @@ void FileParser::loadLists()
 {
 	namespace fs = std::filesystem;
 	auto currPath = basePath;
-	currPath += "\\Lists";
+	currPath += "/Lists";
+
+	Application::Add adder(&app);
+
 	for (auto& filePath : fs::directory_iterator(currPath))
 	{
 		auto name = filePath.path().stem().string();
 		auto newList = new List(name);
-
+		app.selected = newList;
 		std::ifstream file(filePath.path());
 		while (!file.eof())
 		{
-			std::string productName;
-			std::getline(file, productName, ';');
-			if (productName == std::string("")) {
+			std::string line;
+			std::stringstream lineStrem;
+			getline(file, line);
+			if (line == "") {
 				break;
 			}
-			int quantity;
-			file >> quantity;
-			file.get();
-			newList->add_product(products[productName], quantity);
+			adder.exec(lineStrem);
 		}
 		file.close();
-		lists.insert({ name, newList });
+		app.lists.insert({ name, newList });
 	}
 }
 
@@ -82,21 +81,14 @@ void FileParser::writeToFiles()
 {
 	namespace fs = std::filesystem;
 	auto currPath = basePath;
-	currPath += "\\Lists";
+	currPath += "/Lists";
 
-	for (auto& pair : lists)
+	for (auto& pair : app.lists)
 	{
 		auto newPath = currPath /= pair.first;
 		newPath += ".txt";
 		std::ofstream file(newPath.string(), std::ios_base::trunc);
-		auto map = pair.second->get_list();
-		for (auto& list_element : map)
-		{
-			file << list_element.first->get_name();
-			file << ';';
-			file << list_element.second;
-			file << '\n';
-		}
+		file << *(pair.second);
 		file.close();
 	}
 }
