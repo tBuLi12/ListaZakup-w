@@ -49,5 +49,23 @@ void List::set_count(const Product* product_ptr, p_count quantity) {
 	} else {
 		this->products[product_ptr] = quantity;
 	}
-	 
+}
+
+std::ostream& operator<<(std::ostream& stream, List& list)
+{
+	for (auto& list_element : list.products)
+	{
+		std::string name = list_element.first->get_name();
+		p_count quantity = list_element.second;
+		if (name.find(' ') != std::string::npos)
+		{
+			stream << "\"" << name << "\" ";
+		}
+		else
+		{
+			stream << name << " ";
+		}
+		stream << quantity << "\n";
+	}
+	return stream;
 }
