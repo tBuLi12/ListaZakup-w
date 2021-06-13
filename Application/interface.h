@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include "../Product/List.h"
 #include <memory>
+#include <sstream>
 
 class UI
 {
@@ -14,8 +15,7 @@ public:
     {
     public:
         virtual ~Command() = 0;
-        virtual bool takesArgs() const noexcept = 0;
-        virtual void exec(std::vector<std::string>) = 0;
+        virtual bool exec(std::stringstream&) = 0;
     };
     
     UI(UI const&) = delete;
@@ -29,7 +29,7 @@ private:
     //std::string getCommand(std::vector<std::string>& args);
     //bool getArgs(std::vector<std::string>& args);
     void prompt() const noexcept;
-    void runCommand(std::unique_ptr<Command>& cmd, std::vector<std::string> args);
+    bool runCommand(std::unique_ptr<Command>& cmd, std::stringstream& args);
 
     std::unordered_map<std::string, std::unique_ptr<Command>> commands{};
     std::string selectedCommandName = "";

@@ -7,6 +7,7 @@
 #include "FileParser.h"
 #include <unordered_map>
 #include <string>
+#include <sstream>
 
 
 class Application
@@ -20,13 +21,12 @@ private:
         AppCommand(Application* app): caller(app) {};
     };
 
-    #define COMMAND(name, hasArgs) \
+    #define COMMAND(name) \
     class name: public AppCommand\
     {\
     public:\
         name(Application* app): AppCommand(app) {};\
-        void exec(std::vector<std::string> args);\
-        bool takesArgs() const noexcept { return hasArgs; }\
+        bool exec(std::stringstream& args);\
     };
     #include "commands.cmds"
     #undef COMMAND

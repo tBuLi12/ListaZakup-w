@@ -40,24 +40,19 @@ void UI::registerCommand(std::string name, std::unique_ptr<Command>&& command) {
 }
 
 void UI::run() {
-    std::vector<std::string> args;
+    std::stringstream args;
     std::string commandName;
     bool exit = false;
     while (!exit) {
         prompt();
-        commandName = getCommand(args);
+        getline(std::cin, commandName);
+        args.clear();
+        args << commandName;
+        args >> commandName;
         auto mapCommand = commands.find(commandName);
         if (mapCommand != commands.end()) {
-            if (mapCommand->second->takesArgs() && args.size() == 0) {
-                selectedCommandName = commandName;
+            while (runCommand(mapCommand->second, args)) {
                 prompt();
-                while (getArgs(args)) {
-                    runCommand(mapCommand->second, args);
-                    prompt();
-                }
-                selectedCommandName = "";
-            } else {
-                runCommand(mapCommand->second, args);
             }
         } else if (commandName == "quit") {
             exit = true;
@@ -67,15 +62,17 @@ void UI::run() {
     }
 }
 
-void UI::runCommand(std::unique_ptr<Command>& cmd, std::vector<std::string> args) {
+bool UI::runCommand(std::unique_ptr<Command>& cmd, std::stringstream& args) {
     try {
-        cmd->exec(args);
+        return cmd->exec(args);
     }
     catch (AppException& exception) {
         std::cout << exception.what() << std::endl;
+        return false;
     }
     catch (std::invalid_argument& exception) {
         std::cout << "count argument must be a positive integer" << std::endl;
+        return false;
     }
 }
 
