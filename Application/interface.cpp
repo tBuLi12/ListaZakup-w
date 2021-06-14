@@ -16,21 +16,25 @@ void parseArgs(std::stringstream& argsStrStream, std::vector<std::string>& args)
 }
 
 
-std::string getCommand(std::vector<std::string>& args) {
+std::string getCommand(std::stringstream& args) {
     std::string temp;
     getline(std::cin, temp);
-    std::stringstream argsStrStream(temp);
-    argsStrStream >> temp;
-    parseArgs(argsStrStream, args);
+    args.clear();
+    args.str(temp);
+    temp.clear();
+    args >> temp;
     return temp;
 }
 
-bool getArgs(std::vector<std::string>& args) {
+bool getArgs(std::stringstream& args) {
     std::string temp;
     getline(std::cin, temp);
-    std::stringstream argsStrStream(temp);
-    parseArgs(argsStrStream, args);
-    return (args.size() == 0 || args[0] != "..");
+    if (temp == "..") {
+        return false;
+    }
+    args.clear();
+    args.str(temp);
+    return true;
 }
 
 UI::UI() {};
@@ -45,21 +49,19 @@ void UI::run() {
     bool exit = false;
     while (!exit) {
         prompt();
-        getline(std::cin, commandName);
-        args.str().clear();
-        args << commandName;
-        args >> commandName;
+        commandName = getCommand(args);
         auto mapCommand = commands.find(commandName);
         if (mapCommand != commands.end()) {
-            while (runCommand(mapCommand->second, args)) {
+            if (runCommand(mapCommand->second, args)) {
                 prompt(mapCommand->first);
-                getline(std::cin, commandName);
-                args.str().clear();
-                args << commandName;
+                while(getArgs(args)) {
+                    runCommand(mapCommand->second, args);
+                    prompt(mapCommand->first);
+                }
             }
         } else if (commandName == "quit") {
             exit = true;
-        } else {
+        } else if (commandName != "") {
             std::cout << "unknown command: " << commandName << std::endl;
         }
     }

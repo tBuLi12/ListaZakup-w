@@ -25,6 +25,6 @@ NotEnoughArgsException::NotEnoughArgsException(int takes, int got): provided(got
 }
 
 BadListException::BadListException(std::string const& name): listName(name) {
-    message = "Product named \"" + listName + "\" does not exists";
+    message = "List named \"" + listName + "\" does not exists";
 }
 

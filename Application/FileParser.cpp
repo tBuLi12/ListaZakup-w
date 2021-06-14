@@ -13,7 +13,8 @@ void FileParser::loadItems()
 {
 	namespace fs = std::filesystem;
 	auto currPath = basePath;
-	currPath += "/Products/Items";
+	currPath /= "Products";
+	currPath /= "Items";
 	for (auto& filePath : fs::directory_iterator(currPath))
 	{
 		auto name = filePath.path().stem().string();
@@ -32,7 +33,8 @@ void FileParser::loadProducts()
 {
 	namespace fs = std::filesystem;
 	auto currPath = basePath;
-	currPath += "/Products/Food";
+	currPath /= "Products";
+	currPath /= "Food";
 	for (auto& filePath : fs::directory_iterator(currPath))
 	{
 		auto name = filePath.path().stem().string();
@@ -52,7 +54,7 @@ void FileParser::loadLists()
 {
 	namespace fs = std::filesystem;
 	auto currPath = basePath;
-	currPath += "/Lists";
+	currPath /= "Lists";
 
 	Application::Command_Add adder(&app);
 
@@ -75,13 +77,14 @@ void FileParser::loadLists()
 		file.close();
 		app.lists.insert({ name, newList });
 	}
+	app.selected = nullptr;
 }
 
 void FileParser::writeToFiles()
 {
 	namespace fs = std::filesystem;
 	auto currPath = basePath;
-	currPath += "/Lists";
+	currPath /= "Lists";
 
 	for (auto& pair : app.lists)
 	{
