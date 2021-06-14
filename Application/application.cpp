@@ -207,6 +207,15 @@ Application::Application(): interface(UI::get()), parser(*this) {
     #undef COMMAND
 }
 
+Application::~Application() {
+    for (auto& product: products) {
+        delete product.second;
+    }
+    for (auto& list: lists) {
+        delete list.second;
+    }
+}
+
 void Application::run() {
     interface.run();
 }

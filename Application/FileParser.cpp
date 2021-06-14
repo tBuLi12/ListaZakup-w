@@ -63,6 +63,7 @@ void FileParser::loadLists()
 	{
 		auto name = filePath.path().stem().string();
 		auto newList = new List(name);
+		app.lists.insert({ name, newList });
 		app.selected = newList;
 		std::ifstream file(filePath.path());
 		std::cout.setstate(std::ostream::failbit);
@@ -79,7 +80,6 @@ void FileParser::loadLists()
 		}
 		std::cout.clear();
 		file.close();
-		app.lists.insert({ name, newList });
 	}
 	app.selected = nullptr;
 }

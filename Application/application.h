@@ -43,6 +43,7 @@ public:
 
     //friend class ::FileParser;
 public:
+    ~Application();
     Application(Application const&) = delete;
     Application& operator=(Application const&) = delete;
     static Application& get();

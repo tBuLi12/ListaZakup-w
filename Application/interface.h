@@ -44,7 +44,6 @@ private:
     bool runCommand(std::unique_ptr<Command>& cmd, std::stringstream& args, bool locked=false);
 
     std::unordered_map<std::string, std::unique_ptr<Command>> commands{};
-    std::string selectedCommandName = "";
     std::string promptData;
 };
 
