@@ -92,7 +92,7 @@ void FileParser::writeToFiles()
 
 	for (auto& pair : app.lists)
 	{
-		auto newPath = currPath /= pair.first;
+		auto newPath = currPath / pair.first;
 		newPath += ".txt";
 		std::ofstream file(newPath.string(), std::ios_base::trunc);
 		file << *(pair.second);

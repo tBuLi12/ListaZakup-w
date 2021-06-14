@@ -7,12 +7,24 @@
 #define DEFINE_CMD(name, arg, help) const char* Application::Command_##name::getHelp() const noexcept {return "\e[38;5;4m\e[1m"#name "\e[0m\e[38;5;10m " arg "\e[38;5;15m - " help;} \
         bool Application::Command_##name::exec(std::stringstream& args)
 
-p_count strToCount(std::string const& str) {
-    unsigned long lCount = std::stoul(str);
-    p_count count = lCount;
-    if (count != lCount) {
-        throw std::out_of_range("count argument too large");
-    }
+p_count getCount(std::stringstream& args, bool& noCount) {
+    p_count count;
+    while (std::isspace(args.peek())) {args.get();}
+    bool negative = (args.peek() == '-');
+    auto pos = args.tellg();
+    if (!(args >> count)) {
+        args.clear();
+        if (count != 0) {
+            if (!std::isspace(args.peek())) {
+                args.seekg(pos);
+            } else {
+                throw BadCountException(true);
+            } 
+        }
+        noCount = true;
+    } else if (!std::isspace(args.peek())) {
+        args.seekg(pos);
+    } else if (negative) { throw BadCountException(false); }
     return count;
 }
 
@@ -28,6 +40,8 @@ bool getName(std::stringstream& stream, std::string& name) {
     name.pop_back();
     return false;
 } 
+
+
 
 DEFINE_CMD(new, "(list name)", "creates new list named (list name)") {
     std::string listName;
@@ -62,16 +76,7 @@ DEFINE_CMD(add, "[count] (product name)", "adds product(s) to selected list") {
         throw NoListSelectedException();
     }
     bool noCount = false;
-    p_count count;
-    while (std::isspace(args.peek())) {args.get();}
-    bool negative = (args.peek() == '-');
-    if (!(args >> count)) {
-        args.clear();
-        if (count != 0) { throw BadCountException(true); }
-        noCount = true;
-    } else if (!std::isspace(args.peek())) {
-        for (int i=std::to_string((int)count).length();i>0;--i) {args.unget();}
-    } else if (negative ) { throw BadCountException(false); }
+    p_count count = getCount(args, noCount);
     std::string productName;
     if (getName(args, productName)) {
         if (noCount) {
@@ -88,7 +93,7 @@ DEFINE_CMD(add, "[count] (product name)", "adds product(s) to selected list") {
         std::cout << productName << " added." << std::endl;
     } else {
         caller->selected->add_product(product->second, count);
-        std::cout << std::to_string(count) << '*' << productName << " added." << std::endl;
+        std::cout << std::to_string(count) << "x " << productName << " added." << std::endl;
     }
     return false;
 }
@@ -128,23 +133,7 @@ DEFINE_CMD(count, "(count) (product name)", "changes the count of product on sel
         throw NoListSelectedException();
     }
     bool noCount = false;
-    p_count count;
-    while (std::isspace(args.peek())) {args.get();}
-    bool negative = (args.peek() == '-');
-    auto pos = args.tellg();
-    if (!(args >> count)) {
-        args.clear();
-        if (count != 0) {
-            if (!std::isspace(args.peek())) {
-                args.seekg(pos);
-            } else {
-                throw BadCountException(true);
-            } 
-        }
-        noCount = true;
-    } else if (!std::isspace(args.peek())) {
-        args.seekg(pos);
-    } else if (negative) { throw BadCountException(false); }
+    p_count count = getCount(args, noCount);
     std::string productName;
     if (getName(args, productName) == noCount) {
         if (noCount) {

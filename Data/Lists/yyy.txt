@@ -1,1 +1,4 @@
-1 maslo
+chleb
+
+Total price is 3.00 zl
+Total weight is 12.30 kg

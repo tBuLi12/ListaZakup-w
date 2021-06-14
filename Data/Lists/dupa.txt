@@ -1,3 +1,6 @@
 chleb
 7 czapka
 7 maslo
+
+Total price is 11.47 zl
+Total weight is 29.24 kg

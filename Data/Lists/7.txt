@@ -1,1 +1,4 @@
-1 maslo
+maslo
+
+Total price is 1.11 zl
+Total weight is 2.22 kg
