@@ -4,7 +4,8 @@
 #include <iostream>
 
 #define NO_LIST "(No list selected)"
-#define DEFINE_CMD(name) bool Application::Command_##name::exec(std::stringstream& args) 
+#define DEFINE_CMD(name, arg, help) const char* Application::Command_##name::getHelp() const noexcept {return "\e[38;5;4m\e[1m"#name "\e[0m\e[38;5;10m " arg "\e[38;5;15m - " help;} \
+        bool Application::Command_##name::exec(std::stringstream& args)
 
 p_count strToCount(std::string const& str) {
     unsigned long lCount = std::stoul(str);
@@ -28,7 +29,7 @@ bool getName(std::stringstream& stream, std::string& name) {
     return false;
 } 
 
-DEFINE_CMD(NewList) {
+DEFINE_CMD(new, "(list name)", "creates new list named (list name)") {
     std::string listName;
     if (getName(args, listName)) {
         return true;
@@ -43,7 +44,8 @@ DEFINE_CMD(NewList) {
     return false;
 }
 
-DEFINE_CMD(DeleteList) {
+
+DEFINE_CMD(delete, "", "deletes selected list") {
     if (caller->selected == nullptr) {
         throw NoListSelectedException();
     }
@@ -55,22 +57,27 @@ DEFINE_CMD(DeleteList) {
     return false;
 }
 
-DEFINE_CMD(Add) {
+DEFINE_CMD(add, "[count] (product name)", "adds product(s) to selected list") {
     if (caller->selected == nullptr) {
         throw NoListSelectedException();
     }
     bool noCount = false;
     p_count count;
+    while (std::isspace(args.peek())) {args.get();}
+    bool negative = (args.peek() == '-');
     if (!(args >> count)) {
         args.clear();
+        if (count != 0) { throw BadCountException(true); }
         noCount = true;
-    }
+    } else if (!std::isspace(args.peek())) {
+        for (int i=std::to_string((int)count).length();i>0;--i) {args.unget();}
+    } else if (negative ) { throw BadCountException(false); }
     std::string productName;
     if (getName(args, productName)) {
         if (noCount) {
             return true;
         }
-        throw NotEnoughArgsException(1, 2);
+        throw NotEnoughArgsException(2, 1);
     }
     auto product = caller->products.find(productName);
     if (product == caller->products.end()) {
@@ -86,7 +93,7 @@ DEFINE_CMD(Add) {
     return false;
 }
 
-DEFINE_CMD(Remove) {
+DEFINE_CMD(remove, "(product name)", "removed product from selectes list") {
     if (caller->selected == nullptr) {
         throw NoListSelectedException();
     }
@@ -103,7 +110,7 @@ DEFINE_CMD(Remove) {
     return false;
 }
 
-DEFINE_CMD(Info) {
+DEFINE_CMD(info, "(product name)", "prints info about the product") {
     std::string productName;
     if (getName(args, productName)) {
         return true;
@@ -116,23 +123,35 @@ DEFINE_CMD(Info) {
     return false;
 }
 
-DEFINE_CMD(Count) {
+DEFINE_CMD(count, "(count) (product name)", "changes the count of product on selected list") {
     if (caller->selected == nullptr) {
         throw NoListSelectedException();
     }
-    bool noCount;
+    bool noCount = false;
     p_count count;
+    while (std::isspace(args.peek())) {args.get();}
+    bool negative = (args.peek() == '-');
+    auto pos = args.tellg();
     if (!(args >> count)) {
         args.clear();
+        if (count != 0) {
+            if (!std::isspace(args.peek())) {
+                args.seekg(pos);
+            } else {
+                throw BadCountException(true);
+            } 
+        }
         noCount = true;
-    }
+    } else if (!std::isspace(args.peek())) {
+        args.seekg(pos);
+    } else if (negative) { throw BadCountException(false); }
     std::string productName;
     if (getName(args, productName) == noCount) {
         if (noCount) {
             return true;
         }
     } else {
-        throw NotEnoughArgsException(1, 2);
+        throw NotEnoughArgsException(2, 1);
     }
     auto product = caller->products.find(productName);
     if (product == caller->products.end()) {
@@ -143,7 +162,7 @@ DEFINE_CMD(Count) {
     return false;
 }
 
-DEFINE_CMD(Select) {
+DEFINE_CMD(select, "(list name)", "select a list") {
     std::string listName;
     if (getName(args, listName)) {
         return true;
@@ -157,13 +176,40 @@ DEFINE_CMD(Select) {
     return false;
 }
 
-DEFINE_CMD(Print) {
-    if (caller->selected == nullptr) {
-        throw NoListSelectedException();
+DEFINE_CMD(print, "(list name)", "prints the content of selected list") {
+    std::string listName;
+    if (getName(args, listName)) {
+        if (caller->selected == nullptr) {
+            throw NoListSelectedException();
+        } else {
+            std::cout << *(caller->selected) << std::endl;
+        }
+        return false;
     }
-    std::cout << (*(caller->selected)) << std::endl;
+    auto list = caller->lists.find(listName);
+    if (list == caller->lists.end()) {
+        throw BadListException(listName);
+    } else {
+        std::cout << *(list->second) << std::endl;
+    }
     return false;
 }
+
+DEFINE_CMD(lists, "", "prints all list names") {
+    for (auto& listElem: caller->lists) {
+        std::cout << listElem.second->get_list_name() << std::endl;
+    }
+    return false;
+}
+
+DEFINE_CMD(products, "", "prints all products") {
+    for (auto& listElem: caller->products) {
+        std::cout << listElem.second->get_name() << std::endl;
+    }
+    return false;
+}
+
+
 
 Application::Application(): interface(UI::get()), parser(*this) {
     interface.setPromptData(NO_LIST);

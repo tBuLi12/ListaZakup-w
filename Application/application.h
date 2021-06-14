@@ -27,6 +27,7 @@ public:
     public:\
         Command_##name(Application* app): AppCommand(app) {};\
         bool exec(std::stringstream& args);\
+        const char* getHelp() const noexcept;\
     };
     #include "commands.cmds"
     #undef COMMAND

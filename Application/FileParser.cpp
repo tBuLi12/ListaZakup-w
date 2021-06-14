@@ -2,6 +2,7 @@
 #include "application.h"
 #include <fstream>
 #include <cstdio>
+#include <iostream>
 
 FileParser::FileParser(Application& app) : app(app)
 {
@@ -56,7 +57,7 @@ void FileParser::loadLists()
 	auto currPath = basePath;
 	currPath /= "Lists";
 
-	Application::Command_Add adder(&app);
+	Application::Command_add adder(&app);
 
 	for (auto& filePath : fs::directory_iterator(currPath))
 	{
@@ -64,6 +65,7 @@ void FileParser::loadLists()
 		auto newList = new List(name);
 		app.selected = newList;
 		std::ifstream file(filePath.path());
+		std::cout.setstate(std::ostream::failbit);
 		while (!file.eof())
 		{
 			std::string line;
@@ -72,8 +74,10 @@ void FileParser::loadLists()
 			if (line == "") {
 				break;
 			}
+			lineStrem.str(line);
 			adder.exec(lineStrem);
 		}
+		std::cout.clear();
 		file.close();
 		app.lists.insert({ name, newList });
 	}

@@ -41,6 +41,12 @@ public:
     BadListException(std::string const& name);
 };
 
+class BadCountException: public AppException
+{
+public:
+    BadCountException(bool tooLarge);
+};
+
 class ProductNotOnListException: public AppException
 {
 private:

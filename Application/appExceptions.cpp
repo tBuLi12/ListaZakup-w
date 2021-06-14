@@ -12,6 +12,10 @@ NoListSelectedException::NoListSelectedException() {
     message = "No list selected";
 }
 
+BadCountException::BadCountException(bool tooLarge) {
+    message = tooLarge? "Count too large":"Count cannot be negative";
+}
+
 BadProductException::BadProductException(std::string const& name): productName(name) {
     message = "Product named \"" + productName + "\" does not exists";
 }
