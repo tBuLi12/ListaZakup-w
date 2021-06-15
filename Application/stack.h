@@ -11,6 +11,7 @@ private:
     std::vector<Type> content;
 public:
     Type pull();
+    void clear();
     void push(Type const&);
     void push(Type&&);
     void read(std::ostream& stream);    
@@ -38,5 +39,12 @@ void Stack<Type>::read(std::ostream& stream) {
     for (auto iter = content.rbegin(); iter != content.rend(); ++iter) {
         stream << *iter << std::endl;
     }
+    content.clear();
 }
+
+template<typename Type>
+void Stack<Type>::clear() {
+    content.clear();
+}
+
 #endif

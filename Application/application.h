@@ -43,7 +43,6 @@ public:
     Application& operator=(Application const&) = delete;
     static Application& get();
     void run();
-    void saveLogs();
     FileParser parser;
 };
 

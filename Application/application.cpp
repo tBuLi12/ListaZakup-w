@@ -102,7 +102,7 @@ DEFINE_CMD(add, "[count] (product name)", "adds product(s) to selected list") {
         message = std::to_string(count) + "x " + productName + " added.";
     }
     std::cout << message << std::endl;
-    caller.logs.push(std::move(message));
+    caller.logs.push(caller.selected->get_list_name() + ": " + message);
     return false;
 }
 
@@ -121,7 +121,7 @@ DEFINE_CMD(remove, "(product name)", "removed product from selected list") {
     caller.selected->delete_product(product->second);
     std::string message(productName + " removed.");
     std::cout << message << std::endl;
-    caller.logs.push(std::move(message));
+    caller.logs.push(caller.selected->get_list_name() + ": " + message);
     return false;
 }
 
@@ -159,7 +159,7 @@ DEFINE_CMD(count, "(count) (product name)", "changes the count of product on sel
     caller.selected->set_count(product->second, count);
     std::string message("Count of " + productName + " set to " + std::to_string(count));
     std::cout << message << std::endl;
-    caller.logs.push(std::move(message));
+    caller.logs.push((caller.selected->get_list_name() + ": " + message));
     return false;
 }
 
@@ -235,8 +235,4 @@ void Application::run() {
 Application& Application::get() {
     static Application app;
     return app;
-}
-
-void Application::saveLogs() {
-    parser.saveLogs(logs);
 }

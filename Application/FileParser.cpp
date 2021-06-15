@@ -99,6 +99,7 @@ void FileParser::loadLists()
 			}
 		}
 		std::cout.clear();
+		app.logs.clear();
 		file.close();
 	}
 	app.selected = nullptr;
@@ -128,11 +129,11 @@ bool FileParser::deleteListFile(List* list)
 	return std::filesystem::remove(filePath);
 }
 
-void FileParser::saveLogs(Stack<std::string>& stack)
+void FileParser::saveLogs()
 {
 	auto filePath = basePath / ".." / "Data" / "logs";
 	filePath += ".txt";
 	std::ofstream file(filePath.string(), std::ios_base::trunc);
-	stack.read(file);
+	app.logs.read(file);
 	file.close();
 }
