@@ -91,7 +91,15 @@ double Food::get_salt() const noexcept
 
 std::string Food::get_info() const noexcept
 {
-	return "info";
+	std::stringstream stream;
+	stream << name << "\n";
+	stream << "\t" << "Kcal:\t\t" << get_kcal() << "\n";
+	stream << "\t" << "Fat:\t\t" << get_fat() << "g\n";
+	stream << "\t" << "Carbohydrates:\t" << get_carbohydrates() << "g\n";
+	stream << "\t" << "Fibre:\t\t" << get_fibre() << "g\n";
+	stream << "\t" << "Protein:\t" << get_protein() << "g\n";
+	stream << "\t" << "Salt:\t\t" << get_salt() << "g\n";
+	return stream.str();
 }
 
 Item::Item(string const& name, int price, int weight, std::string hazards) noexcept:
@@ -102,5 +110,8 @@ Item::Item(string&& name, int price, int weight, std::string hazards) noexcept:
 
 std::string Item::get_info() const noexcept
 {
-	return hazards;
+	std::stringstream stream;
+	stream << name;
+	stream << "\n\t" << hazards;
+	return stream.str();
 }
