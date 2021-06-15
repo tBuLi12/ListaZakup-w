@@ -25,6 +25,7 @@ public:
 		loadLists();
 	}
 	void writeToFiles();
+	bool deleteListFile(List*);
 };
 
 #endif

@@ -119,3 +119,11 @@ void FileParser::writeToFiles()
 		file.close();
 	}
 }
+
+bool FileParser::deleteListFile(List* list)
+{
+	auto filePath = std::filesystem::current_path() / "Data" / "Lists";
+	filePath /= list->get_list_name();
+	filePath += ".txt";
+	return std::filesystem::remove(filePath);
+}
