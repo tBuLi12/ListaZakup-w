@@ -1,5 +1,5 @@
-3 czapka
 4 maslo
+3 czapka
 
 Total price is 4.74 zl
 Total weight is 9.48 kg
