@@ -39,7 +39,7 @@ bool getArgs(std::stringstream& args) {
 }
 
 UI::UI() {
-    registerCommand("help", std::unique_ptr<UI::Command>(new Command_help(this)));
+    registerCommand("help", std::unique_ptr<UI::Command>(new Command_help(*this)));
 };
 
 void UI::registerCommand(std::string name, std::unique_ptr<Command>&& command) {
@@ -100,15 +100,15 @@ UI& UI::get() {
     return interface;
 }
 
-UI::Command_help::Command_help(UI* ui): ui(ui) {};
+UI::Command_help::Command_help(UI& ui): ui(ui) {};
 
 bool UI::Command_help::exec(std::stringstream& args) {
     std::string cmdName;
     args >> cmdName;
     args.clear();
-    auto cmd = ui->commands.find(cmdName);
-    if (cmd == ui->commands.end()) {
-        for (auto& command: ui->commands) {
+    auto cmd = ui.commands.find(cmdName);
+    if (cmd == ui.commands.end()) {
+        for (auto& command: ui.commands) {
             std::cout << command.second->getHelp() << std::endl << std::endl;
         }
         std::cout << "\e[38;5;4m\e[1m..\e[38;5;0m\e[0m - leaves command" << std::endl << std::endl;

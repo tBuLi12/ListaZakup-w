@@ -22,9 +22,9 @@ public:
     class Command_help: public Command
     {
     protected:
-        UI* ui;
+        UI& ui;
     public:
-        Command_help(UI*);
+        Command_help(UI&);
         virtual bool exec(std::stringstream&);
         virtual const char* getHelp() const noexcept;
     };

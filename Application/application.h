@@ -13,19 +13,13 @@
 class Application
 {
 private:
-    class AppCommand: public UI::Command
-    {
-    protected:
-        Application* caller;
-    public:
-        AppCommand(Application* app): caller(app) {};
-    };
-
     #define COMMAND(name) \
     class Command_##name: public AppCommand\
     {\
+    protected:\
+        Application& caller;\
     public:\
-        Command_##name(Application* app): AppCommand(app) {};\
+        Command_##name(Application& app): caller(app) {};\
         bool exec(std::stringstream& args);\
         const char* getHelp() const noexcept;\
     };
