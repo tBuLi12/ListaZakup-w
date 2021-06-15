@@ -3,6 +3,7 @@
 
 #include "../Product/List.h"
 #include "../Product/Product.h"
+#include "stack.h"
 #include <string>
 #include <unordered_map>
 #include <filesystem>
@@ -26,6 +27,7 @@ public:
 	}
 	void writeToFiles();
 	bool deleteListFile(List*);
+	void saveLogs(Stack&);
 };
 
 #endif
