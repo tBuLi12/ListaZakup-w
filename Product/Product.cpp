@@ -102,16 +102,16 @@ std::string Food::get_info() const noexcept
 	return stream.str();
 }
 
-Item::Item(string const& name, int price, int weight, std::string hazards) noexcept:
-	Product(name, price, weight), hazards(hazards) {};
+Item::Item(string const& name, int price, int weight, std::string info) noexcept:
+	Product(name, price, weight), info(info) {};
 
-Item::Item(string&& name, int price, int weight, std::string hazards) noexcept:
-	Product(std::move(name), price, weight), hazards(hazards) {};
+Item::Item(string&& name, int price, int weight, std::string info) noexcept:
+	Product(std::move(name), price, weight), info(info) {};
 
 std::string Item::get_info() const noexcept
 {
 	std::stringstream stream;
 	stream << name;
-	stream << "\n\t" << hazards;
+	stream << "\n\t" << info << "\n";
 	return stream.str();
 }

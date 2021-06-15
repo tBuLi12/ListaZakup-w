@@ -61,7 +61,7 @@ public:
 class Item :public Product
 {
 private:
-	std::string hazards;
+	std::string info;
 public:
 	Item(std::string const& name, int price, int weight, std::string haz) noexcept;
 	Item(std::string&& name, int price, int weight, std::string haz) noexcept;

@@ -30,8 +30,6 @@ private:
     List* selected = nullptr;
     UI& interface;
     Stack<std::string> logs;
-    void readFromFiles();
-    void writeToFiles();
     std::unordered_map<std::string, Product*> products;
     std::unordered_map<std::string, List*> lists;
     Application();
