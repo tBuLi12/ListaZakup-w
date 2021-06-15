@@ -5,6 +5,7 @@
 #include "../Product/List.h"
 #include "../Product/Product.h"
 #include "FileParser.h"
+#include "stack.h"
 #include <unordered_map>
 #include <string>
 #include <sstream>
@@ -14,7 +15,7 @@ class Application
 {
 private:
     #define COMMAND(name) \
-    class Command_##name: public AppCommand\
+    class Command_##name: public UI::Command\
     {\
     protected:\
         Application& caller;\

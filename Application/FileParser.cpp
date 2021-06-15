@@ -72,7 +72,7 @@ void FileParser::loadLists()
 	auto currPath = basePath;
 	currPath /= "Lists";
 
-	Application::Command_add adder(&app);
+	Application::Command_add adder(app);
 
 	for (auto& filePath : fs::directory_iterator(currPath))
 	{
@@ -95,7 +95,7 @@ void FileParser::loadLists()
 				adder.exec(lineStrem);
 			}
 			catch (AppException const& e) {
-				std::cerr << e.what();
+				std::cerr << e.what() << std::endl;
 			}
 		}
 		std::cout.clear();
