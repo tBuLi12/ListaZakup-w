@@ -98,7 +98,7 @@ DEFINE_CMD(add, "[count] (product name)", "adds product(s) to selected list") {
     return false;
 }
 
-DEFINE_CMD(remove, "(product name)", "removed product from selectes list") {
+DEFINE_CMD(remove, "(product name)", "removed product from selected list") {
     if (caller->selected == nullptr) {
         throw NoListSelectedException();
     }
