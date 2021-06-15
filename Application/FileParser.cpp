@@ -122,7 +122,7 @@ void FileParser::writeToFiles()
 
 bool FileParser::deleteListFile(List* list)
 {
-	auto filePath = basePath / "Data" / "Lists";
+	auto filePath = basePath / ".." / "Data" / "Lists";
 	filePath /= list->get_list_name();
 	filePath += ".txt";
 	return std::filesystem::remove(filePath);
@@ -130,9 +130,9 @@ bool FileParser::deleteListFile(List* list)
 
 void FileParser::saveLogs(Stack<std::string>& stack)
 {
-	auto filePath = basePath / "Data" / "logs";
+	auto filePath = basePath / ".." / "Data" / "logs";
 	filePath += ".txt";
-	std::ofstream file(filePath.string(), std::ios_base::app);
+	std::ofstream file(filePath.string(), std::ios_base::trunc);
 	stack.read(file);
 	file.close();
 }
