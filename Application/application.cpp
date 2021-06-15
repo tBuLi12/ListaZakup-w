@@ -54,7 +54,9 @@ DEFINE_CMD(new, "(list name)", "creates new list named (list name)") {
     caller.lists[listName] = new List(listName);
     caller.selected = caller.lists[listName];
     caller.interface.setPromptData(listName);
-    std::cout << "List " << listName << " created." << std::endl;
+    std::string message("List " + listName + " created.");
+    std::cout << message << std::endl;
+    caller.logs.push(std::move(message));
     return false;
 }
 
@@ -63,8 +65,11 @@ DEFINE_CMD(delete, "", "deletes selected list") {
     if (caller.selected == nullptr) {
         throw NoListSelectedException();
     }
+    caller.parser.deleteListFile(caller.selected);
+    std::string message("List " + caller.selected->get_list_name() + " deleted.");
+    std::cout << message << std::endl;
+    caller.logs.push(std::move(message));
     caller.lists.erase(caller.selected->get_list_name());
-    std::cout << "List " << caller.selected->get_list_name() << " deleted." << std::endl;
     delete caller.selected;
     caller.selected = nullptr;
     caller.interface.setPromptData(NO_LIST);
@@ -88,13 +93,16 @@ DEFINE_CMD(add, "[count] (product name)", "adds product(s) to selected list") {
     if (product == caller.products.end()) {
         throw BadProductException(productName);
     }
+    std::string message;
     if (noCount) {
         caller.selected->add_product(product->second);
-        std::cout << productName << " added." << std::endl;
+        message = productName + " added.";
     } else {
         caller.selected->add_product(product->second, count);
-        std::cout << std::to_string(count) << "x " << productName << " added." << std::endl;
+        message = std::to_string(count) + "x " + productName + " added.";
     }
+    std::cout << message << std::endl;
+    caller.logs.push(std::move(message));
     return false;
 }
 
@@ -111,7 +119,9 @@ DEFINE_CMD(remove, "(product name)", "removed product from selected list") {
         throw BadProductException(productName);
     }
     caller.selected->delete_product(product->second);
-    std::cout << productName << " removed." << std::endl;
+    std::string message(productName + " removed.");
+    std::cout << message << std::endl;
+    caller.logs.push(std::move(message));
     return false;
 }
 
@@ -147,7 +157,9 @@ DEFINE_CMD(count, "(count) (product name)", "changes the count of product on sel
         throw BadProductException(productName);
     }
     caller.selected->set_count(product->second, count);
-    std::cout << "Count of " << productName << " set to " << count << std::endl;
+    std::string message("Count of " + productName + " set to " + std::to_string(count));
+    std::cout << message << std::endl;
+    caller.logs.push(std::move(message));
     return false;
 }
 
@@ -223,4 +235,8 @@ void Application::run() {
 Application& Application::get() {
     static Application app;
     return app;
+}
+
+void Application::saveLogs() {
+    parser.saveLogs(logs);
 }

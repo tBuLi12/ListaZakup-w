@@ -29,6 +29,7 @@ private:
 
     List* selected = nullptr;
     UI& interface;
+    Stack<std::string> logs;
     void readFromFiles();
     void writeToFiles();
     std::unordered_map<std::string, Product*> products;
@@ -42,6 +43,7 @@ public:
     Application& operator=(Application const&) = delete;
     static Application& get();
     void run();
+    void saveLogs();
     FileParser parser;
 };
 
