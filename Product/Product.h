@@ -5,18 +5,6 @@
 #include <array>
 #include <sstream>
 
-/*
-struct Nutrition
-{
-	//per 100g
-	double kcal;
-	double fat;
-	double carbohydrates;
-	double fibre;
-	double salt;
-};
-*/
-
 class Product
 {
 protected:
@@ -36,12 +24,10 @@ public:
 class Food :public Product
 {
 private:
-	// Nutrition per 100g
 	std::array<double, 6> nutrition;
 public:
 	Food(std::string const& name, int price_gr, int weight, std::array<double, 6> const& nutrition) noexcept;
 	Food(std::string&& name, int price_gr, int weight, std::array<double, 6> const& nutrition) noexcept;
-	//int get_weight() const noexcept;
 	double get_kcal_per_100g() const noexcept;
 	double get_fat_per_100g() const noexcept;
 	double get_carbohydrates_per_100g() const noexcept;
@@ -67,7 +53,6 @@ public:
 	Item(std::string&& name, int price, int weight, std::string haz) noexcept;
 
 	std::string get_info() const noexcept;
-	//int get_quantity() const noexcept;
 };
 
 #endif
