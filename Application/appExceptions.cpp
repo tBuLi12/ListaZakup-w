@@ -5,7 +5,7 @@ const char* AppException::what() const noexcept {
 }
 
 ListExistsException::ListExistsException(std::string const& name): listName(name) {
-    message = "List named \"" + listName + "\" alreade exists";
+    message = "List named \"" + listName + "\" already exists";
 }
 
 NoListSelectedException::NoListSelectedException() {
@@ -17,7 +17,7 @@ BadCountException::BadCountException(bool tooLarge) {
 }
 
 BadProductException::BadProductException(std::string const& name): productName(name) {
-    message = "Product named \"" + productName + "\" does not exists";
+    message = "Product named \"" + productName + "\" does not exist";
 }
 
 ProductNotOnListException::ProductNotOnListException(std::string const& lName, std::string const& prodName): listName(lName), productName(prodName) {
@@ -29,6 +29,6 @@ NotEnoughArgsException::NotEnoughArgsException(int takes, int got): provided(got
 }
 
 BadListException::BadListException(std::string const& name): listName(name) {
-    message = "List named \"" + listName + "\" does not exists";
+    message = "List named \"" + listName + "\" does not exist";
 }
 
