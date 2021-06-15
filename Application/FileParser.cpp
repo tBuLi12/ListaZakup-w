@@ -128,7 +128,7 @@ bool FileParser::deleteListFile(List* list)
 	return std::filesystem::remove(filePath);
 }
 
-void FileParser::saveLogs(Stack& stack)
+void FileParser::saveLogs(Stack<std::string>& stack)
 {
 	auto filePath = basePath / "Data" / "logs";
 	filePath += ".txt";

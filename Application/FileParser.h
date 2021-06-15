@@ -27,7 +27,7 @@ public:
 	}
 	void writeToFiles();
 	bool deleteListFile(List*);
-	void saveLogs(Stack&);
+	void saveLogs(Stack<std::string>&);
 };
 
 #endif
