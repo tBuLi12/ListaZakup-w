@@ -1,5 +1,5 @@
 #include "CppUnitTest.h"
-#include "../Product/List.cpp"
+#include "../Product/List.h"
 #include <stdexcept>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -131,5 +131,4 @@ namespace ListUnitTest
 			Assert::AreEqual(0.06, f.get_salt(), 0.001);
 		}
 	};
-
 }

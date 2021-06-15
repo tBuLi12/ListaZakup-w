@@ -1,6 +1,7 @@
 #include "CppUnitTest.h"
 #include "../Product/Product.cpp"
 #include <stdexcept>
+#include <string>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
@@ -137,26 +138,20 @@ namespace ProductUnitTest
 	{
 		TEST_METHOD(Constructor)
 		{
-			Item i("parasol", 1599, 1);
+			Item i(string("parasol"), 1599, 1, string(""));
 			Assert::IsTrue("parasol" == i.get_name());
 		}
 
 		TEST_METHOD(get_name)
 		{
-			Item i("parasol", 1599, 1);
+			Item i(std::string("parasol"), 1599, 1, string(""));
 			Assert::IsTrue("parasol" == i.get_name());
 		}
 
 		TEST_METHOD(get_price)
 		{
-			Item i("parasol", 1599, 1);
+			Item i(std::string("parasol"), 1599, 1, string(""));
 			Assert::AreEqual(1599, i.get_price());
-		}
-
-		TEST_METHOD(get_quantity)
-		{
-			Item i("parasol", 1599, 1);
-			Assert::AreEqual(1, i.get_quantity());
 		}
 	};
 }
