@@ -94,7 +94,7 @@ void FileParser::loadLists()
 			try {
 				adder.exec(lineStrem);
 			}
-			catch (const& BadProductException e) {
+			catch (AppException const& e) {
 				std::cerr << e.what();
 			}
 		}
