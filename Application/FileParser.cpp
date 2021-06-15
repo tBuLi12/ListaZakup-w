@@ -1,5 +1,6 @@
 #include "FileParser.h"
 #include "application.h"
+#include "appExceptions.h"
 #include <fstream>
 #include <cstdio>
 #include <iostream>
@@ -76,7 +77,12 @@ void FileParser::loadLists()
 				break;
 			}
 			lineStrem.str(line);
-			adder.exec(lineStrem);
+			try {
+				adder.exec(lineStrem);
+			}
+			catch (const& BadProductException e) {
+				std::cerr << e.what();
+			}
 		}
 		std::cout.clear();
 		file.close();
