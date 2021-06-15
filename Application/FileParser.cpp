@@ -4,6 +4,7 @@
 #include <fstream>
 #include <cstdio>
 #include <iostream>
+#include <algorithm>
 
 FileParser::FileParser(Application& app) : app(app)
 {
@@ -23,6 +24,11 @@ void FileParser::loadItems()
 		int price, weight;
 		std::ifstream file(filePath.path());
 		file >> price >> weight;
+		if (file.fail() || price < 0 || weight < 0) {
+			std::cerr << "Invalid data in " << name << ".txt\n";
+			file.close();
+			return;
+		}
 		std::string hazards;
 		getline(file, hazards, '\n');
 		hazards = hazards.erase(0, 1);
@@ -47,7 +53,15 @@ void FileParser::loadProducts()
 		for (size_t i = 0; i < 6; ++i) {
 			file >> arr[i];
 		}
-		app.products.insert({ name, new Food(name, price, weight, arr) });
+		bool cond = !file.fail() && price > 0 && weight > 0 && *(std::min_element(arr.begin(), arr.end())) > 0;
+		if (cond)
+		{
+			app.products.insert({ name, new Food(name, price, weight, arr) });
+		}
+		else
+		{
+			std::cerr << "Invalid data in " << name << ".txt\n";
+		}
 		file.close();
 	}
 }
